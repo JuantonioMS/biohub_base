@@ -1,0 +1,1 @@
+from biohub.utils.general_class import GeneralClass

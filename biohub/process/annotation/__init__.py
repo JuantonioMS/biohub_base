@@ -1,0 +1,1 @@
+from biohub.process.annotation.resfinder import ResFinder

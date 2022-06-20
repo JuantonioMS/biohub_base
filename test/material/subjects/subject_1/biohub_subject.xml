@@ -1,0 +1,192 @@
+<?xml version="1.0" ?>
+<subject>
+    <metadata>
+        <id>0x1620df80d6ca61</id>
+        <name>test_sample</name>
+    </metadata>
+    <files>
+        <file date="03/06/2022 11:41:10" comment="">
+            <id>ZFmfzgvRNUnBohg</id>
+            <path>files/IC7DxsAMVSpCt48.fq.gz</path>
+            <processes>
+                <process>9bQJFgB6A5GLwVS</process>
+                <process>fZQU2o0yBfaskW6</process>
+            </processes>
+            <backgrounds>
+                <background>raw</background>
+                <background>forward</background>
+            </backgrounds>
+            <links>
+                <link>files/YxwoH2c8K4LJsrm.fq.gz</link>
+            </links>
+        </file>
+        <file date="03/06/2022 11:41:10" comment="">
+            <id>2sSY36R7Wo3xFHQ</id>
+            <path>files/YxwoH2c8K4LJsrm.fq.gz</path>
+            <processes>
+                <process>9bQJFgB6A5GLwVS</process>
+                <process>fZQU2o0yBfaskW6</process>
+            </processes>
+            <backgrounds>
+                <background>raw</background>
+                <background>reverse</background>
+            </backgrounds>
+            <links>
+                <link>files/IC7DxsAMVSpCt48.fq.gz</link>
+            </links>
+        </file>
+        <file date="03/06/2022 11:41:10" comment="">
+            <id>YSfKDuILGnhqwWs</id>
+            <path>files/1gNunMYmpGFKc0L.fq.gz</path>
+            <processes>
+                <process>fZQU2o0yBfaskW6</process>
+                <process>FmPkirXTy2hf7Jx</process>
+            </processes>
+            <backgrounds>
+                <background>raw trimmed</background>
+                <background>forward</background>
+            </backgrounds>
+            <links>
+                <link>files/omVd3QAy4aXwNZt.fq.gz</link>
+            </links>
+        </file>
+        <file date="03/06/2022 11:41:10" comment="">
+            <id>YxT5ZNt3eLeAxRF</id>
+            <path>files/omVd3QAy4aXwNZt.fq.gz</path>
+            <processes>
+                <process>fZQU2o0yBfaskW6</process>
+                <process>FmPkirXTy2hf7Jx</process>
+            </processes>
+            <backgrounds>
+                <background>raw trimmed</background>
+                <background>reverse</background>
+            </backgrounds>
+            <links>
+                <link>files/1gNunMYmpGFKc0L.fq.gz</link>
+            </links>
+        </file>
+        <file date="03/06/2022 11:41:10" comment="">
+            <id>EAtkEnitZLm5MYj</id>
+            <path>files/icmOImw7AYYXrrL.fasta</path>
+            <processes>
+                <process>FmPkirXTy2hf7Jx</process>
+                <process>9wM158q67bY8duk</process>
+            </processes>
+            <backgrounds>
+                <background>assembly</background>
+            </backgrounds>
+        </file>
+        <file date="03/06/2022 11:41:10" comment="">
+            <id>n88BRabkfQURNuT</id>
+            <path>files/irYWhifgWuwnfnN.gff</path>
+            <processes>
+                <process>9wM158q67bY8duk</process>
+            </processes>
+            <backgrounds>
+                <background>annotation</background>
+            </backgrounds>
+        </file>
+        <file date="03/06/2022 11:41:10" comment="">
+            <id>4rKqNf6ciLPmmrU</id>
+            <path>files/7XTEo1rq3b1Ur0X.bam</path>
+            <processes>
+                <process>bWFwesNWQRkAJHB</process>
+            </processes>
+            <backgrounds>
+                <background>snp mapping</background>
+            </backgrounds>
+        </file>
+    </files>
+    <processes>
+        <process date="14/12/2022 14:30:12" comment="">
+            <id>9bQJFgB6A5GLwVS</id>
+            <name>load</name>
+            <backgrounds>
+                <background>load raw</background>
+                <background>load linked</background>
+            </backgrounds>
+            <tool>load_linked</tool>
+            <inputs>
+                <input>some_fastq.fq.gz</input>
+                <input>other_fastq.fq.gz</input>
+            </inputs>
+            <outputs>
+                <output>files/IC7DxsAMVSpCt48.fq.gz</output>
+                <output>files/YxwoH2c8K4LJsrm.fq.gz</output>
+            </outputs>
+            <test>False</test>
+            <threads>4</threads>
+        </process>
+        <process date="14/12/2022 14:30:12" comment="">
+            <id>fZQU2o0yBfaskW6</id>
+            <name>trimming</name>
+            <backgrounds>
+                <background>trim raw</background>
+                <background>trim linked</background>
+            </backgrounds>
+            <tool>trimgalore</tool>
+            <inputs>
+                <input>files/IC7DxsAMVSpCt48.fq.gz</input>
+                <input>files/YxwoH2c8K4LJsrm.fq.gz</input>
+            </inputs>
+            <outputs>
+                <output>files/1gNunMYmpGFKc0L.fq.gz</output>
+                <output>files/omVd3QAy4aXwNZt.fq.gz</output>
+            </outputs>
+            <test>False</test>
+            <threads>4</threads>
+        </process>
+        <process date="14/12/2022 14:30:12" comment="">
+            <id>FmPkirXTy2hf7Jx</id>
+            <name>assembly</name>
+            <backgrounds>
+                <background>genome assembly</background>
+                <background>short sequence assembly</background>
+            </backgrounds>
+            <tool>unicycler</tool>
+            <inputs>
+                <input>files/1gNunMYmpGFKc0L.fq.gz</input>
+                <input>files/omVd3QAy4aXwNZt.fq.gz</input>
+            </inputs>
+            <outputs>
+                <output>files/icmOImw7AYYXrrL.fasta</output>
+            </outputs>
+            <test>False</test>
+            <threads>4</threads>
+        </process>
+        <process date="14/12/2022 14:30:12" comment="">
+            <id>9wM158q67bY8duk</id>
+            <name>annottation</name>
+            <backgrounds>
+                <background>genome annottation</background>
+            </backgrounds>
+            <tool>prokka</tool>
+            <inputs>
+                <input>files/icmOImw7AYYXrrL.fasta</input>
+            </inputs>
+            <outputs>
+                <output>files/irYWhifgWuwnfnN.gff</output>
+            </outputs>
+            <test>False</test>
+            <threads>4</threads>
+        </process>
+        <process date="14/12/2022 14:30:12" comment="">
+            <id>bWFwesNWQRkAJHB</id>
+            <name>mapping</name>
+            <backgrounds>
+                <background>snp mapping</background>
+            </backgrounds>
+            <tool>tophat</tool>
+            <inputs>
+                <input>files/1gNunMYmpGFKc0L.fq.gz</input>
+                <input>files/omVd3QAy4aXwNZt.fq.gz</input>
+                <input>reference_genome.fasta</input>
+            </inputs>
+            <outputs>
+                <output>files/7XTEo1rq3b1Ur0X.bam</output>
+            </outputs>
+            <test>False</test>
+            <threads>4</threads>
+        </process>
+    </processes>
+</subject>
