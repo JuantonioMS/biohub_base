@@ -1,9 +1,14 @@
 import subprocess
+from tabnanny import check
 from biohub.file import File
 
 from biohub.utils import GeneralClass
 from biohub.file import File
 
+
+from collections import namedtuple
+
+FilePair = namedtuple("FilePair", ["orginal", "biohub"])
 
 class Process(GeneralClass):
 
@@ -48,6 +53,7 @@ class Process(GeneralClass):
             print(commandLine)
 
         else:
+            print(commandLine)
             subprocess.call(f". {commandLine}",
                             shell = True,
                             executable = "/bin/bash")
@@ -114,13 +120,17 @@ class Process(GeneralClass):
             pass # TODO
 
 
-        if len(candidates) > 1:
+        if len(candidates) != 1:
             raise ValueError(f"There are {len(candidates)} with that characteristic")
         else:
             return self.subject.files[candidates[0].id]
 
 
-    def setOutput(self, extension: str, **kwargs) -> File:
+    def setInputs(self, **kwargs):
+        pass
+
+
+    def selectOutput(self, extension: str, **kwargs) -> File:
 
         kwargs["id"] = self.newId()
         kwargs["date"] = self.newDate()
@@ -131,8 +141,25 @@ class Process(GeneralClass):
 
         return File(**kwargs)
 
-    def runProcess(self):
+
+    def setOutputs(self, *args, **kwargs):
         pass
+
+
+    def runProcess(self, inputs, outputs, options):
+        pass
+
+
+    def processOptions(self, **kwargs):
+
+        options = []
+
+        for key, value in kwargs.items():
+            options.append(key)
+            if value:
+                options.append(value)
+
+        return " ".join(options)
 
     def recordProcess(self, inputs, outputs, **kwargs):
 
@@ -147,7 +174,7 @@ class Process(GeneralClass):
 
         self.inputs = []
 
-        for input in inputs:
+        for input in inputs.values():
             if isinstance(input, File):
                 self.subject.files[input.id].processes.append(self.id)
                 self.inputs.append(input.id)
@@ -155,7 +182,8 @@ class Process(GeneralClass):
                 self.inputs.append(str(input))
 
         self.outputs = []
-        for output in outputs:
+
+        for _, output in outputs:
             if isinstance(output, File):
                 self.subject.files[output.id] = output
                 self.outputs.append(output.id)
@@ -163,6 +191,42 @@ class Process(GeneralClass):
                 self.outputs.append(str(output))
 
         self.subject.processes[self.id] = self
+
+
+    def checkProcess(self):
+        return True
+
+
+    def completeProcessAttrs(self, aux = None, processAttrs = {}):
+
+        return self.updateDictAttrs(aux = aux, buffer = processAttrs)
+
+
+    def run(self,
+            inputs: dict = {},
+            outputsAttrs: dict = {},
+            options: dict = {},
+            processAttrs: dict = {}):
+
+        inputs = self.setInputs(**inputs)
+
+        options = self.processOptions(**options)
+
+        outputs = self.setOutputs(options, **outputsAttrs)
+
+
+        self.runProcess(inputs, outputs, options)
+
+        if not self.checkProcess():
+            raise ValueError("Process has not been completed successfully")
+
+        if self.record:
+
+            processAttrs = self.completeProcessAttrs(processAttrs = processAttrs)
+
+            self.recordProcess(inputs, outputs, **processAttrs)
+
+        return outputs
 
 
     #  --------------------XML methods--------------------

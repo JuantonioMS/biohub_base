@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 from pathlib import Path
+import copy
 
 from collections.abc import Iterable
 from xml.etree.ElementTree import SubElement
@@ -157,3 +158,22 @@ class GeneralClass:
                     subElement.text = f"{value}"
 
         return element
+
+
+    def updateDictAttrs(self, aux = {}, buffer = {}):
+
+        new = copy.deepcopy(buffer)
+
+        for key, value in aux.items():
+            if key in new:
+
+                if isinstance(new[key], list):
+                    new[key] = new[key] + value
+
+                else:
+                    new[key] = value
+
+            else:
+                new[key] = value
+
+        return new
