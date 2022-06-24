@@ -177,3 +177,14 @@ class GeneralClass:
                 new[key] = value
 
         return new
+
+
+    def assertPath(self, path):
+
+        if not isinstance(path, Path):
+            path = Path(path)
+
+        if not path.exists():
+            raise FileExistsError(f"File {path} does not exists")
+
+        return path

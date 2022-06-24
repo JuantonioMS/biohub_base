@@ -4,6 +4,34 @@ from biohub.process import Process
 
 class Blastn(Process):
 
+
+    def setInputs(self, **kwargs):
+
+        if "database" in kwargs:
+            kwargs["database"] = self.assertPath(kwargs["database"])
+
+        else:
+            kwargs["database"] = self.selectInput(backgrounds = ["assembly"],
+                                                  method = "backgrounds")
+
+        if "query" in kwargs:
+            kwargs["query"] = self.assertPath(kwargs["query"])
+        else:
+            kwargs["query"] = self.selectInput(backgrounds = ["query"],
+                                               method = "backgrounds")
+
+        return kwargs
+
+
+
+
+
+    def setOutputs(self, *args, **kwargs):
+        return super().setOutputs(*args, **kwargs)
+
+
+
+
     def run(self,
             database = None,
             query = None,
