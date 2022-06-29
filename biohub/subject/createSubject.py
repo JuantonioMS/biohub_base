@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 from biohub.subject import Subject
 
-class CreateSubject():
+class CreateSubject:
 
     def __init__(self, name: str, path: Path):
 
