@@ -22,9 +22,6 @@ class Subject(GeneralClass):
         if self.xmlFile.exists and self.xmlFile.size != 0:
             self.build()
 
-        else:
-            subprocess.call(f"touch {self.xmlFile}", shell = True, executable = "/bin/bash")
-
         self.filesDir = Path(self.xmlFile.parent, "files")
 
         if not self.filesDir.exists():
@@ -35,6 +32,10 @@ class Subject(GeneralClass):
 
         if not hasattr(self, "processes"):
             self.processes = {}
+
+
+    def newId(self, buffer = []):
+        return "bhSJ" + super().newId(buffer)
 
 
     def build(self):

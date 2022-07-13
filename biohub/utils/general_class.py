@@ -29,7 +29,7 @@ class GeneralClass:
 
         while not newId:
 
-            newId = "".join(random.choices(storage, k = 15))
+            newId = "".join(random.choices(storage, k = 20))
 
             if newId in buffer:
                 newId = ""

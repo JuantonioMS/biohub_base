@@ -1,6 +1,5 @@
 import subprocess
 from pathlib import Path
-from biohub import project, subject
 
 from biohub.project import Project
 
@@ -24,6 +23,7 @@ class CreateProject:
 
 
     def createDir(self):
+
         subprocess.call(f"mkdir {self.path}/{self.name}",
                         shell = True,
                         executable = "/bin/bash")
@@ -34,6 +34,7 @@ class CreateProject:
 
 
     def createXmlFile(self):
+
         subprocess.call(f"touch {self.path}/{self.name}/biohub_project.xml",
                         shell = True,
                         executable = "/bin/bash")

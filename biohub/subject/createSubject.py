@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 from biohub.subject import Subject
+from biohub.utils import GeneralClass
 
 class CreateSubject:
 
@@ -13,24 +14,27 @@ class CreateSubject:
 
         self.name = name.replace(".", "_")
 
+        self.newId = "bhSJ" + GeneralClass().newId()
+
         self.createDir()
         self.createXmlFile()
         self.createObject()
 
 
     def createDir(self):
-        subprocess.call(f"mkdir {self.path}/{self.name}", shell = True, executable = "/bin/bash")
+        subprocess.call(f"mkdir {self.path}/{self.newId}", shell = True, executable = "/bin/bash")
 
     def createXmlFile(self):
-        subprocess.call(f"touch {self.path}/{self.name}/biohub_subject.xml", shell = True, executable = "/bin/bash")
+        subprocess.call(f"touch {self.path}/{self.newId}/biohub_subject.xml", shell = True, executable = "/bin/bash")
 
     def createObject(self):
 
-        subject = Subject(path = Path(f"{self.path}/{self.name}/biohub_subject.xml"))
+        subject = Subject(path = Path(f"{self.path}/{self.newId}/biohub_subject.xml"))
 
-        subject.id = subject.newId()
+        subject.id = self.newId
         subject.date = subject.newDate()
         subject.name = self.name
+
 
         subject.saveToXml()
 

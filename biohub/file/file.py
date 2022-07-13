@@ -4,6 +4,10 @@ from os.path import getsize
 class File(GeneralClass):
 
 
+    def newId(self, buffer = []):
+        return "bhFL" + super().newId(buffer)
+
+
     @property
     def file(self):
         return self.path.name

@@ -7,6 +7,21 @@ class Load(Process):
     """
     Proceso para realizar una carga de un fichero sobre un sujeto
     """
+    
+    def setInputs(self, **kwargs):
+        return super().setInputs(**kwargs)
+    
+    def setOutputs(self, *args, **kwargs):
+        return super().setOutputs(*args, **kwargs)
+    
+    def completeProcessAttrs(self, aux=None, processAttrs=...):
+        return super().completeProcessAttrs(aux, processAttrs)
+    
+    def recordProcess(self, inputs, outputs, **kwargs):
+        return super().recordProcess(inputs, outputs, **kwargs)
+    
+    def run(self, inputs: dict = ..., outputsAttrs: dict = ..., options: dict = ..., processAttrs: dict = ...):
+        return super().run(inputs, outputsAttrs, options, processAttrs)
 
 
     def run(self,

@@ -33,6 +33,10 @@ class Process(GeneralClass):
         super().__init__(**kwargs)
 
 
+    def newId(self, buffer = []):
+        return "bhPR" + super().newId(buffer)
+
+
     #  --------------------Run methods--------------------
 
     def runCondaPackage(self,
