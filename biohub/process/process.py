@@ -1,11 +1,11 @@
 import subprocess
-from tabnanny import check
 
-from click import option
 from biohub.file import File
 
 from biohub.utils import GeneralClass
 from biohub.file import File
+
+from pathlib import Path
 
 
 from collections import namedtuple
@@ -87,7 +87,7 @@ class Process(GeneralClass):
 
         inputs = self.setInputs(options = options, **inputs)
 
-        outputs = self.setOutputs(options = options, **outputsAttrs)
+        outputs = self.setOutputs(options = options, inputs = inputs, **outputsAttrs)
 
         self.runProcess(options = options,
                         inputs = inputs,
@@ -114,9 +114,22 @@ class Process(GeneralClass):
 
     def setInputs(self, options = {}, **kwargs):
 
-        # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
+        #  Método interfaz. Será sustituido por un método específico para cada proceso si es necesario.
+        #  Traspasa cualquier fichero a un objeto Path por defecto
 
-        return {}
+        aux = kwargs.copy()
+
+        for key, value in kwargs.items():
+
+            if not isinstance(value, Path):
+                value = Path(value)
+
+            if not value.exists():
+                raise FileExistsError(f"{value} file not found")
+
+            aux[key] = value
+
+        return aux
 
 
     def selectInput(self,
@@ -174,11 +187,11 @@ class Process(GeneralClass):
             return self.subject.files[candidates[0].id]
 
 
-    def setOutputs(self, options = {}, **kwargs):
+    def setOutputs(self, options = {}, inputs = {}, **kwargs):
 
         # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
 
-        return {}
+        return []
 
 
     def selectOutput(self, extension: str, **kwargs) -> File:
@@ -194,7 +207,7 @@ class Process(GeneralClass):
     def runProcess(self,
                    options = {},
                    inputs = {},
-                   outputs = {}):
+                   outputs = []):
 
         # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
 
@@ -229,13 +242,24 @@ class Process(GeneralClass):
 
         self.outputs = []
 
-        for _, output in outputs:
+        # TODO implentar el output para el FilePair
+
+        for output in outputs:
+
+            if len(outputs) > 1:
+                output.links = [aux.id for aux in outputs if aux.id != output.id]
+
+            self.subject.files[output.id] = output
+
             if isinstance(output, File):
                 self.outputs.append(output.id)
             else:
                 self.outputs.append(str(output))
 
+
         self.subject.processes[self.id] = self
+
+        self.subject.saveToXml()
 
 
     def completeProcessAttrs(self, aux = None, processAttrs = {}):

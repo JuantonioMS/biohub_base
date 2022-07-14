@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<subject>
+    <metadata>
+        <id>bhSJSfoghM8CvSC1Gt</id>
+        <name>subject_test</name>
+    </metadata>
+    <files>
+        <file date="14/07/2022;15:43:46" comment="holiwi">
+            <backgrounds>
+                <background>first load</background>
+                <background>test</background>
+                <background>single</background>
+                <background>loaded linked</background>
+                <background>trimmed</background>
+            </backgrounds>
+            <id>bhFLdur9MTDny0FQJF</id>
+            <path>files/IiFMhjGTxWJNwx.fq</path>
+        </file>
+        <file date="14/07/2022;15:43:46" comment="holiwi">
+            <backgrounds>
+                <background>first load</background>
+                <background>test</background>
+                <background>single</background>
+                <background>loaded linked</background>
+            </backgrounds>
+            <id>bhFLoNHRTeZh5euF2e</id>
+            <path>files/mQ42KdGkGRMNer.fq</path>
+        </file>
+        <file date="14/07/2022;15:43:46" comment="holiwi">
+            <backgrounds>
+                <background>first load</background>
+                <background>test</background>
+                <background>linked</background>
+                <background>loaded single</background>
+                <background>forward</background>
+                <background>raw</background>
+            </backgrounds>
+            <id>bhFLwShRCQzaSSEE57</id>
+            <path>files/NQXC91bO9Zslc7.fq</path>
+            <links>
+                <link>bhFLbRvxaVFFtMOaK4</link>
+            </links>
+        </file>
+        <file date="14/07/2022;15:43:46" comment="holiwi">
+            <backgrounds>
+                <background>first load</background>
+                <background>test</background>
+                <background>linked</background>
+                <background>loaded single</background>
+                <background>reverse</background>
+            </backgrounds>
+            <id>bhFLbRvxaVFFtMOaK4</id>
+            <path>files/SbLXs0aJafeQuP.fq</path>
+            <links>
+                <link>bhFLwShRCQzaSSEE57</link>
+            </links>
+        </file>
+    </files>
+    <processes>
+        <process date="14/07/2022;15:43:46" comment="">
+            <id>bhPRgHkbkIlMU4xuDL</id>
+            <tool>Load</tool>
+            <name>load</name>
+            <backgrounds>
+                <background>load</background>
+            </backgrounds>
+            <inputs>
+                <input>/home/virtualvikings/Work/projects/biohub_base/test/material/files/sample1_1.fq</input>
+            </inputs>
+            <outputs>
+                <output>bhFLdur9MTDny0FQJF</output>
+            </outputs>
+        </process>
+        <process date="14/07/2022;15:43:46" comment="">
+            <id>bhPRyD63A8YQHTa0UY</id>
+            <tool>Load</tool>
+            <name>load</name>
+            <backgrounds>
+                <background>load</background>
+            </backgrounds>
+            <inputs>
+                <input>/home/virtualvikings/Work/projects/biohub_base/test/material/files/sample1_1.fq</input>
+            </inputs>
+            <outputs>
+                <output>bhFLoNHRTeZh5euF2e</output>
+            </outputs>
+        </process>
+        <process date="14/07/2022;15:43:46" comment="">
+            <id>bhPRruUw5U0sCGpQyl</id>
+            <tool>Load</tool>
+            <name>load</name>
+            <backgrounds>
+                <background>load</background>
+            </backgrounds>
+            <inputs>
+                <input>/home/virtualvikings/Work/projects/biohub_base/test/material/files/sample2_1.fq</input>
+                <input>/home/virtualvikings/Work/projects/biohub_base/test/material/files/sample2_2.fq</input>
+            </inputs>
+            <outputs>
+                <output>bhFLwShRCQzaSSEE57</output>
+                <output>bhFLbRvxaVFFtMOaK4</output>
+            </outputs>
+        </process>
+    </processes>
+</subject>
