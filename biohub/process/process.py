@@ -1,5 +1,7 @@
 import subprocess
 from tabnanny import check
+
+from click import option
 from biohub.file import File
 
 from biohub.utils import GeneralClass
@@ -72,7 +74,49 @@ class Process(GeneralClass):
             subprocess.call(command, shell = True, executable = "/bin/bash")
 
 
-    #  --------------------API run methods--------------------
+    #  --------------------New API run methods--------------------
+
+
+    def run(self,
+            inputs: dict = {},
+            outputsAttrs: dict = {},
+            options: dict = {},
+            processAttrs: dict = {}):
+
+        options = self.setOptions(**options)
+
+        inputs = self.setInputs(options = options, **inputs)
+
+        outputs = self.setOutputs(options = options, **outputsAttrs)
+
+        self.runProcess(options = options,
+                        inputs = inputs,
+                        outputs = outputs)
+
+        if not self.checkStatus():
+            raise ValueError("Process has not been completed successfully")
+
+        if self.record:
+
+            processAttrs = self.completeProcessAttrs(processAttrs = processAttrs)
+
+            self.saveRecord(inputs, outputs, **processAttrs)
+
+        return outputs
+
+
+    def setOptions(self, **kwargs):
+
+        # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
+
+        return {}
+
+
+    def setInputs(self, options = {}, **kwargs):
+
+        # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
+
+        return {}
 
 
     def selectInput(self,
@@ -130,42 +174,41 @@ class Process(GeneralClass):
             return self.subject.files[candidates[0].id]
 
 
-    def setInputs(self, **kwargs):
-        pass
+    def setOutputs(self, options = {}, **kwargs):
+
+        # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
+
+        return {}
 
 
     def selectOutput(self, extension: str, **kwargs) -> File:
 
-        kwargs["id"] = self.newId()
+        kwargs["id"] = "bhFL" + super().newId()
         kwargs["date"] = self.newDate()
 
-        kwargs["path"] = "files/" + self.newId() + extension
-
-        kwargs["processes"] = [self.id]
+        kwargs["path"] = "files/" + super().newId() + extension
 
         return File(**kwargs)
 
 
-    def setOutputs(self, *args, **kwargs):
+    def runProcess(self,
+                   options = {},
+                   inputs = {},
+                   outputs = {}):
+
+        # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
+
         pass
 
 
-    def runProcess(self, inputs, outputs, options):
-        pass
+    def checkStatus(self):
+
+        # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
+
+        return True
 
 
-    def processOptions(self, **kwargs):
-
-        options = []
-
-        for key, value in kwargs.items():
-            options.append(key)
-            if value:
-                options.append(value)
-
-        return " ".join(options)
-
-    def recordProcess(self, inputs, outputs, **kwargs):
+    def saveRecord(self, inputs, outputs, **kwargs):
 
         self.tool = type(self).__name__ #  Nombre de la herramienta
 
@@ -173,14 +216,13 @@ class Process(GeneralClass):
         if self.name == "process": #  Si es una clase "por defecto" el nombre cambia al de la herramienta directamente
             self.name = self.tool.lower()
 
-        for key, value in kwargs.items():
+        for key, value in kwargs.items(): #  Añadiendo atributos manuales
             setattr(self, key, value)
 
         self.inputs = []
 
         for input in inputs.values():
             if isinstance(input, File):
-                self.subject.files[input.id].processes.append(self.id)
                 self.inputs.append(input.id)
             else:
                 self.inputs.append(str(input))
@@ -189,7 +231,6 @@ class Process(GeneralClass):
 
         for _, output in outputs:
             if isinstance(output, File):
-                self.subject.files[output.id] = output
                 self.outputs.append(output.id)
             else:
                 self.outputs.append(str(output))
@@ -197,40 +238,9 @@ class Process(GeneralClass):
         self.subject.processes[self.id] = self
 
 
-    def checkProcess(self):
-        return True
-
-
     def completeProcessAttrs(self, aux = None, processAttrs = {}):
 
         return self.updateDictAttrs(aux = aux, buffer = processAttrs)
-
-
-    def run(self,
-            inputs: dict = {},
-            outputsAttrs: dict = {},
-            options: dict = {},
-            processAttrs: dict = {}):
-
-        inputs = self.setInputs(**inputs)
-
-        options = self.processOptions(**options)
-
-        outputs = self.setOutputs(options, **outputsAttrs)
-
-
-        self.runProcess(inputs, outputs, options)
-
-        if not self.checkProcess():
-            raise ValueError("Process has not been completed successfully")
-
-        if self.record:
-
-            processAttrs = self.completeProcessAttrs(processAttrs = processAttrs)
-
-            self.recordProcess(inputs, outputs, **processAttrs)
-
-        return outputs
 
 
     #  --------------------XML methods--------------------
