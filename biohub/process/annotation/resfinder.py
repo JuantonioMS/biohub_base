@@ -1,13 +1,18 @@
-from curses import KEY_A1
 from pathlib import Path
-from turtle import back
-
-from click import option
 
 from biohub.process import FilePair
 from biohub.process import Process
 
 class ResFinder(Process):
+
+
+    def run(self,
+            inputs: dict = {},
+            outputsAttrs: dict = {},
+            options: dict = {"-acq" : ""},
+            processAttrs: dict = {}):
+
+        return super().run(inputs, outputsAttrs, options, processAttrs)
 
 
     def setInputs(self, **kwargs):

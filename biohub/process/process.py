@@ -109,7 +109,7 @@ class Process(GeneralClass):
 
         # Método interfaz. Será sustituido por un método específico para cada proceso si es necesario
 
-        return {}
+        return kwargs
 
 
     def setInputs(self, options = {}, **kwargs):
